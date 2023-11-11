@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:honeydukes_mobile/menu.dart';
+import 'package:honeydukes_mobile/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Honeydukes',
+      title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,7 +29,12 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 219, 141, 180)),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 67, 202, 162),
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromARGB(255, 67, 202, 162),
+        ),
         useMaterial3: true,
       ),
       home: MyHomePage(),
