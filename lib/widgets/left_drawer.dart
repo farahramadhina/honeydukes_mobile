@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:honeydukes_mobile/screens/menu.dart';
-import 'package:honeydukes_mobile/screens/shoplist_form.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_itemlist.dart';
+import 'package:honeydukes_mobile/models/honeydukes_models.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -18,7 +19,7 @@ class LeftDrawer extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Shopping List',
+                  'Honeydukes',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -28,7 +29,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Text(
-                  "Catat seluruh keperluan belanjamu di sini!",
+                  "Fill up your bucket full of sweets!",
                   textAlign: TextAlign.center, // Center alignment
                   style: TextStyle(
                     fontSize: 15, // Font size 15
@@ -53,14 +54,27 @@ class LeftDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.add_shopping_cart),
-            title: const Text('Tambah Produk'),
+            title: const Text('Tambah Item'),
             // Bagian redirection ke ShopFormPage
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ShopFormPage(),
+                    builder: (context) => const HoneydukesFormPage(),
                   ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.view_list),
+            title: const Text('Lihat Item'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      HoneydukesItemListPage(honeydukesList: honeydukesList),
+                ),
+              );
             },
           ),
         ],

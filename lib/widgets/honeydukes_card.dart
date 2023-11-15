@@ -1,24 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:honeydukes_mobile/screens/menu.dart'; // Impor berkas menu.dart jika diperlukan
-import 'package:honeydukes_mobile/widgets/left_drawer.dart'; // Impor drawer yang sudah dibuat sebelumnya
-import 'package:honeydukes_mobile/screens/shoplist_form.dart';
+import 'package:flutter/material.dart'; // Impor drawer yang sudah dibuat sebelumnya
+import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
+import 'package:honeydukes_mobile/screens/menu.dart';
+import 'package:honeydukes_mobile/models/honeydukes_models.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_itemlist.dart';
 
-class ShopItem {
+class HoneydukesItem {
   final String name;
   final IconData icon;
 
-  ShopItem(this.name, this.icon);
+  HoneydukesItem(this.name, this.icon);
 }
 
-class ShopCard extends StatelessWidget {
-  final ShopItem item;
+class HoneydukesCard extends StatelessWidget {
+  final HoneydukesItem item;
 
-  const ShopCard(this.item, {super.key}); // Constructor
+  const HoneydukesCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color.fromARGB(255, 233, 151, 190),
+      color: const Color.fromARGB(255, 233, 151, 190),
       child: InkWell(
         // Area responsif terhadap sentuhan
         onTap: () {
@@ -30,12 +31,19 @@ class ShopCard extends StatelessWidget {
 
           // Navigate ke route yang sesuai (tergantung jenis tombol)
           if (item.name == "Tambah Item") {
-            // TODO: Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ShopFormPage.
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShopFormPage(),
+                  builder: (context) => const HoneydukesFormPage(),
                 ));
+          } else if (item.name == "Lihat Item") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    HoneydukesItemListPage(honeydukesList: honeydukesList),
+              ),
+            );
           }
         },
         child: Container(

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:honeydukes_mobile/screens/shoplist_form.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
 import 'package:honeydukes_mobile/widgets/left_drawer.dart';
-import 'package:honeydukes_mobile/widgets/shop_card.dart';
+import 'package:honeydukes_mobile/widgets/honeydukes_card.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
+import 'package:honeydukes_mobile/screens/honeydukes_itemlist.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
-  final List<ShopItem> items = [
-    ShopItem("Lihat Item", Icons.checklist),
-    ShopItem("Tambah Item", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+  final List<HoneydukesItem> items = [
+    HoneydukesItem("Lihat Item", Icons.checklist),
+    HoneydukesItem("Tambah Item", Icons.add_shopping_cart),
+    HoneydukesItem("Logout", Icons.logout),
   ];
 
   @override
@@ -47,9 +49,9 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((ShopItem item) {
+                children: items.map((HoneydukesItem item) {
                   // Iterasi untuk setiap item
-                  return ShopCard(item);
+                  return HoneydukesCard(item);
                 }).toList(),
               ),
             ],

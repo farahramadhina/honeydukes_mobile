@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:honeydukes_mobile/widgets/left_drawer.dart'; // Impor drawer yang sudah dibuat sebelumnya
+import 'package:honeydukes_mobile/widgets/left_drawer.dart'; // Import the drawer that was previously created
+import 'package:honeydukes_mobile/models/honeydukes_models.dart';
 
-class ShopFormPage extends StatefulWidget {
-  const ShopFormPage({Key? key});
+class HoneydukesFormPage extends StatefulWidget {
+  const HoneydukesFormPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<ShopFormPage> createState() => _ShopFormPageState();
+  State<HoneydukesFormPage> createState() => _HoneydukesFormPageState();
 }
 
-class _ShopFormPageState extends State<ShopFormPage> {
+class _HoneydukesFormPageState extends State<HoneydukesFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _name = "";
   String _category = "";
@@ -28,7 +31,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
         backgroundColor: Color.fromARGB(255, 233, 151, 190),
         foregroundColor: Colors.white,
       ),
-      drawer: const LeftDrawer(), // Tambahkan drawer yang sudah dibuat di sini
+      drawer: const LeftDrawer(), // Add the previously created drawer here
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -180,7 +183,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                     Text('Kategori: $_category'),
                                     Text('Deskripsi: $_description'),
                                     Text('Jumlah: $_amount'),
-                                    // Tambahkan value lainnya jika ada
+                                    // Add other values if needed
                                   ],
                                 ),
                               ),

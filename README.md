@@ -1,3 +1,93 @@
+# Tugas 8: Flutter Navigation, Layouts, Forms, and Input Elements #
+## Farah Dhiya Ramadhina/PBP B/2206082934 ##
+
+## A. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement(), disertai dengan contoh mengenai penggunaan kedua metode tersebut yang tepat! ##
+Dalam Flutter, `Navigator` digunakan untuk mengelola tumpukan halaman atau 'routes'. 
+- **`Navigator.push()`**: Metode ini digunakan untuk menavigasi ke halaman baru tanpa menghapus halaman sebelumnya dari *stack*. Maksudnya adalah seperti menambah buku ke tumpukan buku tanpa mengambil yang ada di bawahnya. Contoh penggunaannya: Misalnya, dari halaman beranda, *user* klik tombol untuk ke halaman detail. Dengan `Navigator.push()`, halaman detail ditambahkan ke tumpukan, dan pengguna dapat kembali ke beranda dengan tombol kembali.
+
+- **`Navigator.pushReplacement()`**: Metode ini mengganti halaman saat ini dengan halaman baru dalam *stack*. Metode ini seperti mengganti buku di puncak tumpukan dengan buku lain. Contoh penggunaannya: Dalam kasus login, setelah berhasil masuk, halaman login dapat diganti dengan halaman beranda sehingga pengguna tidak kembali ke halaman login jika menekan tombol kembali.
+
+## B. Jelaskan masing-masing layout widget pada Flutter dan konteks penggunaannya masing-masing! ##
+Flutter menyediakan berbagai widget layout untuk mengatur tampilan UI. Berikut beberapa di antaranya:
+
+- **`Container`**: Widget serba guna untuk dekorasi, padding, dan alignment. Digunakan saat Anda ingin memberikan padding, margin, latar belakang, atau bentuk khusus pada sebagian UI.
+
+- **`Column` dan `Row`**: Untuk layout vertikal dan horizontal. `Column` mengatur anak-anaknya secara vertikal, sedangkan `Row` secara horizontal. Sangat berguna untuk layout linier.
+
+- **`Stack`**: Menumpuk widgets secara berlapis. Berguna untuk membuat tampilan overlay, seperti teks di atas gambar.
+
+- **`GridView`**: Untuk membuat grid yang terdiri dari berbagai elemen. Ideal untuk galeri foto atau grid produk.
+
+- **`ListView`**: Membuat daftar scrollable. Cocok untuk daftar yang panjang seperti feed berita atau daftar email.
+
+## C. Sebutkan apa saja elemen input pada form yang kamu pakai pada tugas kali ini dan jelaskan mengapa kamu menggunakan elemen input tersebut! ##
+`TextFormField`
+Saya memakai Text Form Field sebagai elemen input untuk semua variabel pada form karena dengan text form field, saya dapat mengimplementasikan validasi yang tepat untuk membantu memastikan bahwa data yang dimasukkan valid dan lengkap serta sesuai yang diminta (input tidak boleh kosong dan bisa saya atur syarat validitasnya misalnya untuk buntuk harga dan jumlah saya hanya menerima angka bulat karena variabel keduanya merupakan integer)
+
+## D. Bagaimana penerapan clean architecture pada aplikasi Flutter? ##
+Clean Architecture adalah pendekatan desain software yang memisahkan elemen kode menjadi lapisan terpisah, meningkatkan modularitas, ketergantungan yang lebih mudah diatur, dan lebih mudah diuji. Dalam konteks Flutter:
+
+- **Lapisan Presentasi**: Mengandung UI dan logika presentasi. Ini termasuk Widgets dan ViewModels. Widgets menampilkan data, sedangkan ViewModels mengolah data tersebut.
+
+- **Lapisan Bisnis (atau Domain)**: Mendefinisikan aturan bisnis dan kasus penggunaan. Ini adalah bagian inti yang tidak bergantung pada lapisan lain.
+
+- **Lapisan Data**: Bertanggung jawab atas penyimpanan data, pengambilan data, dan API. Ini termasuk Repositories yang berkomunikasi dengan sumber data eksternal seperti API atau database lokal.
+
+Penerapan clean architecture dalam Flutter memudahkan manajemen kode, pengujian, dan pemeliharaan aplikasi. Setiap lapisan memiliki tanggung jawabnya sendiri, memungkinkan perubahan pada satu lapisan tanpa mengganggu lapisan lain.
+
+## E. Implementasi Checklist Tugas 8 ##
+**Membuat minimal satu halaman baru pada aplikasi, yaitu halaman formulir tambah item baru**
+1. Buat berkas baru bernama `honeydukes_form.dart` pada folder screens di folder lib 
+2. Buat variabel baru bernama `_formKey` ke atribut `key` milik widget `Form`
+3. Mengisi widget `Form` dengan *field* dan membuat widget `Column` 
+4. Membuat widget `TextFormField` yang dibungkus oleh `Padding` sebagai salah satu children dari widget `Column`. Lalu, tambahkan atribut `crossAxisAlignment` untuk mengatur alignment children dari `Column`.
+5. Membuat dua  TextFormField  yang dibungkus dengan `Padding`
+6. Buat tombol sebagai child selanjutnya dari `Column`. Bungkus tombol ke dalam widget `Padding` dan `Align`, agar data dapat muncul dalam *pop up* setelah tombol ditekan 
+
+**Mengarahkan pengguna ke halaman form tambah item baru ketika menekan tombol Tambah Item pada halaman utama.**
+Menggunakan Navigator untuk berpindah-pindah halaman di mana pada halaman utama kita menggunakan `push` untuk menyimpan pada *stack* agar nantinya bisa kembali ke halaman utama
+```ruby
+onTap: () {
+          // Memunculkan SnackBar ketika diklik
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!")));
+
+          // Navigate ke route yang sesuai (tergantung jenis tombol)
+          if (item.name == "Tambah Item") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HoneydukesFormPage(),
+                ));
+```
+
+**Memunculkan data sesuai isi dari formulir yang diisi dalam sebuah pop-up setelah menekan tombol Save pada halaman formulir tambah item baru.**
+Menggunakan AlertDialog seperti ini 
+```ruby
+return AlertDialog(
+    title: const Text('Produk berhasil tersimpan'),
+    content: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Nama: $_name'),
+          Text('Harga: $_price'),
+          Text('Kategori: $_category'),
+          Text('Deskripsi: $_description'),
+          Text('Jumlah: $_amount'),
+          // Add other values if needed
+        ],
+      ),
+    ),
+```
+
+**Membuat sebuah drawer pada aplikasi**
+1. Membuat file baru pada folder widgets bernama `left_drawer.dart` dan mengimpor halaman yg navigasinya akan ada di drawer tersebut, yaitu halaman `MyHomePage` dan `ShopFormPage` 
+2. Buatrouting untuk halaman yang telah diimpor di file `left_drawer.dart`
+3. Masukkan bagian drawer header
+
 # Tugas 7: Elemen Dasar Flutter #
 ## Farah Dhiya Ramadhina/PBP B/2206082934 ##
 
