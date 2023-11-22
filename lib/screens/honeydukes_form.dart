@@ -19,6 +19,7 @@ class _HoneydukesFormPageState extends State<HoneydukesFormPage> {
   String _name = "";
   String _category = "";
   String _description = "";
+  String _image = "";
   int _price = 0;
   int _amount = 0;
 
@@ -33,7 +34,7 @@ class _HoneydukesFormPageState extends State<HoneydukesFormPage> {
             'Form Tambah Produk',
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 233, 151, 190),
+        backgroundColor: Color.fromARGB(255, 67, 202, 162),
         foregroundColor: Colors.white,
       ),
       drawer: const LeftDrawer(), // Add the previously created drawer here
@@ -164,6 +165,29 @@ class _HoneydukesFormPageState extends State<HoneydukesFormPage> {
                   },
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Image",
+                    labelText: "Image",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _image = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Image tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -182,6 +206,7 @@ class _HoneydukesFormPageState extends State<HoneydukesFormPage> {
                               'price': _price.toString(),
                               'description': _description,
                               'category': _category,
+                              'image': _image,
                             }));
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context)

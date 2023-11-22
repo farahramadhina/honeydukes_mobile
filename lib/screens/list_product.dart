@@ -11,9 +11,49 @@ class ProductPage extends StatefulWidget {
   _ProductPageState createState() => _ProductPageState();
 }
 
+class ProductDetailPage extends StatelessWidget {
+  final Product product;
+
+  const ProductDetailPage({Key? key, required this.product}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(product.fields.name),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(product.fields.image),
+            Text('${product.fields.name}', style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 10),
+            Text('Price: ${product.fields.price}',
+                style: TextStyle(fontSize: 15)),
+            Text('Amount: ${product.fields.amount}',
+                style: TextStyle(fontSize: 15)),
+            const SizedBox(height: 10),
+            Text('${product.fields.description}',
+                style: TextStyle(fontSize: 12)),
+            SizedBox(height: 20),
+            Text('Category: ${product.fields.category}',
+                style: TextStyle(fontSize: 12)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('Back to List'),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _ProductPageState extends State<ProductPage> {
   Future<List<Product>> fetchProduct() async {
-    // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse('http://localhost:8000/json/');
     var response = await http.get(
       url,
@@ -36,55 +76,58 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Product'),
-        ),
-        drawer: const LeftDrawer(),
-        body: FutureBuilder(
-            future: fetchProduct(),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                if (!snapshot.hasData) {
-                  return const Column(
+      appBar: AppBar(
+        title: const Text('Product'),
+      ),
+      drawer: const LeftDrawer(),
+      body: FutureBuilder<List<Product>>(
+        future: fetchProduct(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No products available'));
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (_, index) {
+              var product = snapshot.data![index];
+              return Card(
+                margin: const EdgeInsets.all(10),
+                child: ListTile(
+                  leading: Image.network(product.fields.image,
+                      width: 50, height: 50, fit: BoxFit.cover),
+                  title: Center(
+                    child: Text(product.fields.name),
+                  ),
+                  subtitle: Column(
                     children: [
                       Text(
-                        "Tidak ada data produk.",
-                        style:
-                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                        'Amount: ${product.fields.amount}',
+                        style: TextStyle(fontSize: 12),
                       ),
-                      SizedBox(height: 8),
+                      Text('${product.fields.description}',
+                          style: TextStyle(fontSize: 12)),
+                      SizedBox(height: 20),
                     ],
-                  );
-                } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (_, index) => Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${snapshot.data![index].fields.name}",
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text("${snapshot.data![index].fields.price}"),
-                                const SizedBox(height: 10),
-                                Text(
-                                    "${snapshot.data![index].fields.description}")
-                              ],
-                            ),
-                          ));
-                }
-              }
-            }));
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(product: product),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

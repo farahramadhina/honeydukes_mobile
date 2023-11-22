@@ -19,7 +19,6 @@ class MyHomePage extends StatelessWidget {
       ),
       drawer: const LeftDrawer(),
       body: SingleChildScrollView(
-        // Widget wrapper yang dapat discroll
         child: Padding(
           padding: const EdgeInsets.all(10.0), // Set padding dari halaman
           child: Column(
@@ -29,7 +28,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'PBP Shop', // Text yang menandakan toko
+                  'Honeydukes', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
