@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:honeydukes_mobile/screens/menu.dart';
 import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
-import 'package:honeydukes_mobile/screens/honeydukes_itemlist.dart';
-import 'package:honeydukes_mobile/models/honeydukes_models.dart';
+import 'package:honeydukes_mobile/models/product.dart';
+import 'package:honeydukes_mobile/screens/list_product.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -65,15 +65,13 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.view_list),
-            title: const Text('Lihat Item'),
+            leading: const Icon(Icons.shopping_basket),
+            title: const Text('Daftar Produk'),
             onTap: () {
+              // Route menu ke halaman produk
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HoneydukesItemListPage(honeydukesList: honeydukesList),
-                ),
+                MaterialPageRoute(builder: (context) => const ProductPage()),
               );
             },
           ),

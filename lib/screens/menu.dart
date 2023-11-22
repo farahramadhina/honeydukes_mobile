@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
 import 'package:honeydukes_mobile/widgets/left_drawer.dart';
 import 'package:honeydukes_mobile/widgets/honeydukes_card.dart';
-import 'package:honeydukes_mobile/screens/honeydukes_form.dart';
-import 'package:honeydukes_mobile/screens/honeydukes_itemlist.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
